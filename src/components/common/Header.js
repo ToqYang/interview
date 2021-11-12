@@ -1,11 +1,22 @@
-import React from 'react'
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../actions/auth";
 
 const Header = () => {
-	return (
-		<div>
-			<h1>Header</h1>
-		</div>
-	)
-}
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-export default Header
+  return (
+    <div>
+      <h1>Headehr</h1>
+      <h2>auth: {isAuthenticated}</h2>
+      {isAuthenticated === true && (
+        <button type="button" onClick={() => dispatch(logout())}>
+          Logout
+        </button>
+      )}
+    </div>
+  );
+};
+
+export default Header;
