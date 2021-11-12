@@ -9,16 +9,16 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 
 const AppRouter = () => {
-  const auth = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const [logged, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    if (auth?.isAuthenticated === true) {
+    if (isAuthenticated === true) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
-  }, [auth, setIsLoggedIn]);
+  }, [isAuthenticated, setIsLoggedIn]);
 
   return (
     <Router>

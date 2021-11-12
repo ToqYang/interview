@@ -1,11 +1,16 @@
-import React from 'react'
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
 
 const RegisterScreen = () => {
-	return (
-		<div>
-			<h1>Register screen</h1>
-		</div>
-	)
-}
+  return (
+    <div>
+      <Container>
+        <Row>
+          <Col>1 of 1</Col>
+        </Row>
+      </Container>
+    </div>
+  );
+};
 
-export default RegisterScreen
+export default RegisterScreen;

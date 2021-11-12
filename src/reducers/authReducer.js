@@ -6,6 +6,7 @@ const initialState = {
     name: "",
   },
   accessToken: "",
+  isAuthenticated: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -14,6 +15,7 @@ export const authReducer = (state = initialState, action) => {
       return {
         user: action.payload.user,
         accessToken: action.payload.accessToken,
+        isAuthenticated: action.payload.isAuthenticated,
       };
     case types.logout:
       return {};

@@ -6,6 +6,7 @@ export const login = (user, accessToken) => {
     payload: {
       user,
       accessToken,
+      isAuthenticated: true,
     },
   };
 };
