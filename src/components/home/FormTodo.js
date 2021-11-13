@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import useForm from "../../hooks/useForm";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { BASE_URL } from "../../config/url_base";
+import { ListContext } from "../../store/context";
 
 const todo = {
   _id: 0,
@@ -11,55 +11,54 @@ const todo = {
   done: false,
 };
 
-const FormTodo = ({
-  list = [],
-  info = todo,
-  mode = "0",
-  closeModal = null,
-  handleValues = null,
-}) => {
+const FormTodo = ({ info = todo, mode = "0", closeModal = null }) => {
   const [values, handleInputChange] = useForm(info);
+  const { data, setData } = useContext(ListContext);
   const [submit, setSubmit] = useState(false);
-  const { name, done, note, _id } = values;
+
+  const makeEdit = useCallback(() => {
+    let newObj = { data: { ...values }, original: { ...values } };
+    delete newObj.data._id;
+    const opt = {
+      url: `${BASE_URL}/unicorn/${mode === "1" ? `${values._id}` : ""}`,
+      method: mode === "0" ? "POST" : "PUT",
+      data: newObj.data,
+    };
+    const consult = axios.request(opt);
+    consult
+      .then(function (response) {
+        let newList = response.data;
+        // Work to put and post
+        if (mode === "0") {
+          newList = [...data, newList];
+        } else if (mode === "1") {
+          newList = data.map((item) => {
+            if (item._id === info._id) {
+              return newObj.original;
+            }
+            return item;
+          });
+        }
+        console.log("list: ", newList, data);
+        setData(newList);
+        console.log("Todo bien todo correcto yo que me alegro: ", response);
+      })
+      .catch(function (error) {
+        console.log("error: ", error);
+      })
+      .finally(() => {
+        setSubmit(false);
+        if (closeModal !== null) {
+          closeModal();
+        }
+      });
+  }, [data, closeModal, info._id, mode, setData, values]);
 
   useEffect(() => {
-    if (submit === true && handleValues !== null && _id !== "") {
-      let newObj = { ...values };
-      delete newObj._id;
-      const consult = axios.request({
-        url: `${BASE_URL}/unicorn/${mode === "1" ? `${_id}` : ""}`,
-        method: mode === "0" ? "POST" : "PUT",
-        data: newObj,
-      });
-      consult
-        .then(function (response) {
-          let newList = response.data;
-          // Work to put and post
-          if (mode === "0") {
-            newList = [...list, newList];
-          } else if (mode === "1") {
-            newList = list.map((item) => {
-              if (item._id === info._id) {
-                return newList;
-              }
-              return item;
-            });
-          }
-          console.log("list: ", newList, list);
-          handleValues(newList);
-          console.log("Todo bien todo correcto yo que me alegro: ", response);
-        })
-        .catch(function (error) {
-          console.log("error: ", error);
-        })
-        .finally(() => {
-          setSubmit(false);
-          if (closeModal !== null) {
-            closeModal();
-          }
-        });
+    if (submit === true) {
+      makeEdit();
     }
-  }, [submit]);
+  }, [submit, makeEdit]);
 
   return (
     <div>
@@ -76,7 +75,7 @@ const FormTodo = ({
           type="text"
           name="name"
           id="name-edit"
-          value={name}
+          value={values?.name}
           onChange={handleInputChange}
           disabled={submit}
         />
@@ -85,7 +84,7 @@ const FormTodo = ({
           type="text"
           name="note"
           id="note-edit"
-          value={note}
+          value={values?.note}
           onChange={handleInputChange}
           disabled={submit}
         />
@@ -94,7 +93,7 @@ const FormTodo = ({
           type="checkbox"
           name="done"
           id="done-edit"
-          value={done}
+          value={values?.done}
           onChange={handleInputChange}
           disabled={submit}
         />

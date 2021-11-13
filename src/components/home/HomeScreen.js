@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import TaskList from "./TaskList";
 import FormTodo from "./FormTodo";
 import { fetchDataCall } from "../../config/handleApi";
@@ -7,10 +7,6 @@ import { ListContext } from "../../store/context";
 
 const HomeScreen = () => {
   const [data, setData] = useState([]);
-
-  const handleValues = (info) => {
-    setData(info);
-  };
 
   useEffect(() => {
     const fetchData = async (api) => {
@@ -26,8 +22,8 @@ const HomeScreen = () => {
     <ListContext.Provider value={{ data, setData }}>
       <div>
         <h1>Home Screen</h1>
-        <FormTodo list={data} handleValues={handleValues} mode="0" />
-        <TaskList list={data} handleValues={handleValues} />
+        <FormTodo mode="0" />
+        <TaskList />
       </div>
     </ListContext.Provider>
   );
