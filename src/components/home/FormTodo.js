@@ -25,7 +25,6 @@ const FormTodo = ({ mode = "0", closeModal = null }) => {
         let newList = response.data;
         newList = handlePostPut(mode, data, newList, currSelect, newObj);
         setData(newList);
-        console.log("Todo bien todo correcto yo que me alegro: ", response);
       })
       .catch(function (error) {
         console.log("error: ", error);
