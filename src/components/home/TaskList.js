@@ -5,9 +5,8 @@ import FormTodo from "./FormTodo";
 import { ListContext } from "../../store/context";
 
 const TaskList = () => {
-  const { data, setData } = useContext(ListContext);
+  const { data, setData, setCurrSelect, setRestart } = useContext(ListContext);
   const [modalShow, setIsModalShow] = useState(false);
-  const [currSelect, setCurrSelect] = useState({});
   const handleDelete = useCallback(
     async (id) => {
       setIsModalShow(false);
@@ -15,15 +14,13 @@ const TaskList = () => {
       const newList = data.filter((item) => item["_id"] !== id);
       setData(newList);
       await axios
-        .delete(`${BASE_URL}/unicorn/${id}`)
-        .then(function (response) {
-          console.log("response delete: ", response);
-        })
+        .delete(`${BASE_URL}/${id}`)
+        .then(function (response) {})
         .catch(function (error) {
           console.log("error delete", error);
         });
     },
-    [data, setData]
+    [data, setData, setCurrSelect]
   );
 
   const listTasks = useCallback(() => {
@@ -32,7 +29,7 @@ const TaskList = () => {
       return (
         <tr key={value["_id"]}>
           {values.map((item, idx) => (
-            <td key={idx}>{item}</td>
+            <td key={idx}>{String(item)}</td>
           ))}
           <td>
             <button
@@ -58,11 +55,7 @@ const TaskList = () => {
         </tr>
       );
     });
-  }, [data, handleDelete]);
-
-  //   const handleEdit = (id) => {
-  //     console.log("edit");
-  //   };
+  }, [data, handleDelete, setCurrSelect]);
 
   const closeModal = () => {
     setIsModalShow(false);
@@ -74,17 +67,15 @@ const TaskList = () => {
         <thead>
           <tr>
             <th>#</th>
+            <th>done</th>
             <th>name</th>
             <th>note</th>
-            <th>done</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>{data.length > 0 && Array.isArray(data) && listTasks()}</tbody>
       </table>
-      {modalShow && (
-        <FormTodo info={currSelect} mode="1" closeModal={closeModal} />
-      )}
+      {modalShow && <FormTodo mode="1" closeModal={closeModal} />}
       <button
         type="button"
         onClick={(e) => {
@@ -99,6 +90,7 @@ const TaskList = () => {
         onClick={(e) => {
           e.preventDefault();
           console.log("Error");
+          setRestart((prev) => !prev);
         }}
       >
         Bring data

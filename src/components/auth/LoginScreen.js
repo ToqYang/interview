@@ -18,7 +18,6 @@ const LoginScreen = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submit");
     const existDb = dbUsers.filter(
       (user) => user.email === email && user.password === password
     );
