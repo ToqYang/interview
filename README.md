@@ -1,4 +1,56 @@
-# Getting Started with Create React App
+# 🚀To Do
+
+<a href="https://imgur.com/7G8jNFW"><img src="https://i.imgur.com/7G8jNFW.png" title="source: imgur.com" /></a>
+<a href="https://imgur.com/iD01Bf7"><img src="https://i.imgur.com/iD01Bf7.png" title="source: imgur.com" /></a>
+
+## ✏️ Mockups y Tareas
+
+Este proyecto cuenta un poco de cómo hice el proyecto en el que empecé con wireframes para hacer un prototipado ligero y fácil usando progressive enhancement, para facilitar todo. Luego procedí a hacer una lectura de requerimientos y API para definir las tareas para empezar a trabajar en pomodoros con el fin de tener una idea clara que lleve a una mejor productividad.
+
+- 🧠 -> ✏️ -> 👀📜 -> 👨‍💻 -> 🚀💡
+
+# 💻 Instalar con NPM
+
+0. Crear la variables de entorno en tu equipo al compilar
+
+1. En github puedes pulsar en botón Fork y escribir en tu terminal `git clone https://github.com/{usernamegithub}/{name-repo}.git` o clonar directamente `https://github.com/ToqYang/{name-repo}.git`.
+
+2. Tras la descarga lo siguiente es cambiar de directorio a la carpeta del proyecto `{name-repo}`.
+
+3. A continuación, escriba el comando `npm i` que instalará todas las dependencias del proyecto esto tomará un par de segundos o minutos dependiendo de su equipo.
+
+4. Ahora puede probar el proyecto ejecutando el comando `npm run start`.
+
+psdta: Si quieres ejecutar el test debes escribir `npm run test` y después pulsar `a`.
+
+5. Ingresar a registro y clicar en el botón e irse al login en caso de no estar loggeado
+
+## 📚 Dependencias
+
+- "@testing-library/jest-dom": "^5.11.4",
+- "@testing-library/react": "^11.1.0",
+- "@testing-library/user-event": "^12.1.10",
+- "axios": "^0.24.0",
+- "react": "^17.0.2",
+- "react-dom": "^17.0.2",
+- "react-redux": "^7.2.3",
+- "react-router-dom": "^5.2.0",
+- "react-scripts": "4.0.3",
+- "redux": "^4.0.5",
+- "redux-thunk": "^2.3.0",
+- "sweetalert2": "^11.1.10",
+- "validator": "^13.6.0",
+- "web-vitals": "^1.0.1"
+
+## 👀 Problema
+
+Crear un To Do
+
+## Endpoints a usar
+
+## Crudcrud.com
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
