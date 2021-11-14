@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import useForm from "../../hooks/useForm";
 import { login } from "../../actions/auth";
+import Swal from "sweetalert2";
 
 const dbUsers = [
   { name: "John Doe", id: "0", email: "john@example.com", password: "124" },
@@ -27,38 +28,60 @@ const LoginScreen = () => {
       const accessToken = (Math.random() + 1).toString(36).substring(7);
       dispatch(login({ name: user.name, id: user.id }, accessToken));
     } else {
-      console.log("not found");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Not found",
+      });
     }
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h1>Login</h1>
-        <label htmlFor="email">email:</label>
+    <form
+      className="d-flex flex-column justify-content-center align-items-initial"
+      onSubmit={handleSubmit}
+    >
+      <h1>Login</h1>
+      <div className="mt-5">
+        <label htmlFor="email">Email:</label>
         <input
+          className="form-control"
           type="email"
           id="email"
           name="email"
           onChange={handleInputChange}
           value={email}
         />
-        <br />
-        <label htmlFor="password">password:</label>
+      </div>
+      <br />
+      <div className="mt-2">
+        <label htmlFor="password">Password:</label>
         <input
+          className="form-control"
           type="text"
           id="password"
           name="password"
           onChange={handleInputChange}
           value={password}
         />
-        <br />
-        <input type="submit" value="Submit" />
-        <button type="button" onClick={reset}>
-          reset
+      </div>
+      <br />
+      <div className="d-flex flex-column mt-5">
+        <button className="btn btn-primary" type="submit">
+          Login
         </button>
-      </form>
-    </div>
+        <button
+          className="btn btn-warning mt-2"
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            reset({ email: "", password: "" });
+          }}
+        >
+          Reset Fields
+        </button>
+      </div>
+    </form>
   );
 };
 

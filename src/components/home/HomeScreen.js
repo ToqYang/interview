@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import TaskList from "./TaskList";
 import FormTodo from "./FormTodo";
+import { ListContext } from "../../store/context";
 
 const HomeScreen = () => {
+  const { currSelect } = useContext(ListContext);
+
   return (
     <div>
-      <h1>Home Screen</h1>
-      <FormTodo mode="0" />
+      {currSelect?._id === 0 ||
+        (Object.keys(currSelect).length === 0 && <FormTodo mode="0" />)}
       <TaskList />
     </div>
   );

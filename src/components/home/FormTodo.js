@@ -3,6 +3,7 @@ import useForm from "../../hooks/useForm";
 import axios from "axios";
 import { ListContext } from "../../store/context";
 import { handleConfigRequest, handlePostPut } from "../../config/handleApi";
+import Swal from "sweetalert2";
 
 const FormTodo = ({ mode = "0", closeModal = null }) => {
   const { data, setData, currSelect, setCurrSelect } = useContext(ListContext);
@@ -27,7 +28,11 @@ const FormTodo = ({ mode = "0", closeModal = null }) => {
         setData(newList);
       })
       .catch(function (error) {
-        console.log("error: ", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.message,
+        });
       })
       .finally(() => {
         submitFinish();
@@ -36,7 +41,6 @@ const FormTodo = ({ mode = "0", closeModal = null }) => {
 
   return (
     <div>
-      <h1>Edit</h1>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -50,38 +54,52 @@ const FormTodo = ({ mode = "0", closeModal = null }) => {
           });
         }}
       >
-        <label htmlFor="name-edit">Name</label>
-        <input
-          type="text"
-          name="name"
-          id="name-edit"
-          value={values?.name}
-          onChange={handleInputChange}
-          disabled={submit}
-        />
-        <label htmlFor="note-edit">Note</label>
-        <input
-          type="text"
-          name="note"
-          id="note-edit"
-          value={values?.note}
-          onChange={handleInputChange}
-          disabled={submit}
-        />
-        <label htmlFor="done-edit">Done</label>
-        <input
-          type="checkbox"
-          name="done"
-          id="done-edit"
-          checked={values?.done}
-          value={values?.done}
-          onChange={handleInputChange}
-          disabled={submit}
-        />
-        <button type="submit">Submit</button>
+        <div className="d-flex flex-column">
+          <label htmlFor="name-edit">Name</label>
+          <input
+            className="form-control"
+            type="text"
+            name="name"
+            id="name-edit"
+            value={values?.name}
+            onChange={handleInputChange}
+            disabled={submit}
+            required
+          />
+        </div>
+        <div className="d-flex flex-column mt-2">
+          <label htmlFor="note-edit">Note</label>
+          <input
+            type="text"
+            className="form-control"
+            name="note"
+            id="note-edit"
+            value={values?.note}
+            onChange={handleInputChange}
+            disabled={submit}
+            required
+          />
+        </div>
+        <div className="d-flex flex-column justify-content-start mt-2">
+          <label htmlFor="done-edit">Done</label>
+          <input
+            className="align-self-start"
+            type="checkbox"
+            name="done"
+            id="done-edit"
+            checked={values?.done}
+            value={values?.done}
+            onChange={handleInputChange}
+            disabled={submit}
+          />
+        </div>
+        <button className="btn btn-primary mt-2" type="submit">
+          {mode === "1" ? "Update" : "Add"}
+        </button>
       </form>
       {mode === "1" && (
         <button
+          className="btn btn-danger mt-2"
           type="button"
           onClick={(e) => {
             e.preventDefault();

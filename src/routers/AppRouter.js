@@ -6,7 +6,6 @@ import HomeScreen from "../components/home/HomeScreen";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import Header from "../components/common/Header";
-import Footer from "../components/common/Footer";
 
 const AppRouter = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -23,7 +22,7 @@ const AppRouter = () => {
   return (
     <Router>
       <Header />
-      <main>
+      <main className="d-flex justify-content-center align-items-center h-100">
         <Switch>
           <PrivateRoute
             exact
@@ -39,7 +38,6 @@ const AppRouter = () => {
           <Redirect to="/auth/login" />
         </Switch>
       </main>
-      <Footer />
     </Router>
   );
 };

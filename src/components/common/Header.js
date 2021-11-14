@@ -1,33 +1,46 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { logout } from "../../actions/auth";
-import { PageHeader, Button } from "antd";
+import { ListContext } from "../../store/context";
 
 const Header = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
+  const { setCurrSelect } = useContext(ListContext);
   const dispatch = useDispatch();
   let history = useHistory();
 
   const authButtons = (
-    <Button key="logout" onClick={() => dispatch(logout())}>
+    <button
+      className="btn btn-outline-danger"
+      key="logout"
+      onClick={() => {
+        dispatch(logout());
+        setCurrSelect({});
+      }}
+    >
       Logout
-    </Button>
+    </button>
   );
   const guestButtons = (
-    <Button key="login" onClick={() => history.push("/auth/login")}>
+    <button
+      className="btn btn btn-outline-primary"
+      key="login"
+      onClick={() => history.push("/auth/login")}
+    >
       Login
-    </Button>
+    </button>
   );
 
   const statusButtons = isAuthenticated ? authButtons : guestButtons;
 
   return (
-    <PageHeader
-      className="site-page-header"
-      title="To Do"
-      extra={[statusButtons]}
-    />
+    <nav className="navbar navbar-light bg-light">
+      <div className="container-fluid">
+        <div className="navbar-brand">To Do</div>
+        {statusButtons}
+      </div>
+    </nav>
   );
 };
 

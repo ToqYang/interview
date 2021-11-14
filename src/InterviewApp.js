@@ -13,7 +13,6 @@ function App() {
     note: "",
     name: "",
   });
-  const [restart, setRestart] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,8 +32,6 @@ function App() {
           setData,
           currSelect,
           setCurrSelect,
-          setRestart,
-          restart,
         }}
       >
         <AppRouter />

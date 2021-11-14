@@ -3,9 +3,10 @@ import React, { useState, useCallback, useContext } from "react";
 import { BASE_URL } from "../../config/url_base";
 import FormTodo from "./FormTodo";
 import { ListContext } from "../../store/context";
+import Swal from "sweetalert2";
 
 const TaskList = () => {
-  const { data, setData, setCurrSelect, setRestart } = useContext(ListContext);
+  const { data, setData, setCurrSelect } = useContext(ListContext);
   const [modalShow, setIsModalShow] = useState(false);
   const handleDelete = useCallback(
     async (id) => {
@@ -17,7 +18,11 @@ const TaskList = () => {
         .delete(`${BASE_URL}/${id}`)
         .then(function (response) {})
         .catch(function (error) {
-          console.log("error delete", error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: error.message,
+          });
         });
     },
     [data, setData, setCurrSelect]
@@ -28,11 +33,19 @@ const TaskList = () => {
       const values = Object.values(value);
       return (
         <tr key={value["_id"]}>
-          {values.map((item, idx) => (
-            <td key={idx}>{String(item)}</td>
-          ))}
+          {values.map((item, idx) => {
+            if (idx === 0) {
+              return (
+                <th scope="row" key={idx}>
+                  {String(item)}
+                </th>
+              );
+            }
+            return <td key={idx}>{String(item)}</td>;
+          })}
           <td>
             <button
+              className="btn btn-dark"
               type="button"
               onClick={(e) => {
                 e.preventDefault();
@@ -43,6 +56,7 @@ const TaskList = () => {
               Edit
             </button>
             <button
+              className="btn btn-danger"
               type="button"
               onClick={async (e) => {
                 e.preventDefault();
@@ -62,21 +76,24 @@ const TaskList = () => {
   };
 
   return (
-    <>
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>done</th>
-            <th>name</th>
-            <th>note</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>{data.length > 0 && Array.isArray(data) && listTasks()}</tbody>
-      </table>
+    <div style={{ overflowX: "scroll" }}>
+      <div className="table-responsive">
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">done</th>
+              <th scope="col">name</th>
+              <th scope="col">note</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>{data.length > 0 && Array.isArray(data) && listTasks()}</tbody>
+        </table>
+      </div>
       {modalShow && <FormTodo mode="1" closeModal={closeModal} />}
       <button
+        className="btn btn-outline-danger mt-5"
         type="button"
         onClick={(e) => {
           e.preventDefault();
@@ -85,17 +102,7 @@ const TaskList = () => {
       >
         Delete all Local
       </button>
-      <button
-        type="button"
-        onClick={(e) => {
-          e.preventDefault();
-          console.log("Error");
-          setRestart((prev) => !prev);
-        }}
-      >
-        Bring data
-      </button>
-    </>
+    </div>
   );
 };
 
