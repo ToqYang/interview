@@ -11,7 +11,7 @@ Este proyecto cuenta un poco de cómo hice el proyecto en el que empecé con wir
 
 # 💻 Instalar con NPM
 
-0. Crear la variables de entorno en tu equipo al compilar
+0. Crear la variables de entorno en tu equipo al compilar y cambiarlas para testear en el package.json
 
 1. En github puedes pulsar en botón Fork y escribir en tu terminal `git clone https://github.com/{usernamegithub}/{name-repo}.git` o clonar directamente `https://github.com/ToqYang/{name-repo}.git`.
 
