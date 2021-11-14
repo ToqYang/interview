@@ -6,7 +6,7 @@ const initialState = {
     name: "",
   },
   accessToken: "",
-  isAuthenticated: false,
+  isAuthenticated: true,
 };
 
 export const authReducer = (state = initialState, action) => {
