@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import { BASE_URL } from "../../config/url_base";
 import FormTodo from "./FormTodo";
 import { ListContext } from "../../store/context";
@@ -38,6 +38,7 @@ const TaskList = () => {
                 e.preventDefault();
                 setCurrSelect(value);
                 setIsModalShow(true);
+                console.log("modal", modalShow);
               }}
             >
               Edit
@@ -60,6 +61,10 @@ const TaskList = () => {
   const closeModal = () => {
     setIsModalShow(false);
   };
+
+  useEffect(() => {
+    console.log("modal: ", modalShow);
+  }, [modalShow]);
 
   return (
     <>
